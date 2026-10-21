@@ -52,17 +52,75 @@
 
 # arrays.display()
 
-def fibonacci (num) :
-  fib = [0, 1]
-  if (num == 0) :
-    return 0
-  elif (num == 1) :
-    return 1
-  else :
-    for i in range (2, num) :
-      nums = fib[i - 1] + fib[i - 2]
-      fib.append(nums)
+class Node :
+  def __init__ (self, data) :
+    self.data = data
+    self.next = None
+    
+class LinkedList :
+  def __init__ (self) :
+    self.head = None
+    
+  def insert_beginning (self, data) :
+    new_node = Node(data)
+    new_node.next = self.head
+    self.head = new_node
+    
+  def insert_position (self, index, data) :
+    if (index == 0) :
+      self.insert_beginning(data)
+      return
+    
+    if (index < 0) :
+      return
+    
+    temp = self.head
+    new_node = Node(data)
+    
+    for _ in range (index - 1) :
+      temp = temp.next
       
-  return fib
+    new_node.next = temp.next
+    temp.next = new_node
+    
+  def delete_beginning (self) :
+    temp = self.head
+    if temp is None :
+      return
+    temp = temp.next.next
+    
+  def delete_position (self, index) :
+    temp = self.head
+    
+    if (temp is None) or (index >= temp.data)  :
+      return
+    
+    if index < 0 :
+      return
+    
+    for _ in range (index - 1) :
+      temp = temp.next
+    temp.next = temp.next.next
+    
+  def display (self) :
+    temp = self.head
+    
+    while temp is not None:
+      print(temp.data, end=" => ")
+      temp = temp.next
+    
+    print("Null")
+    
+linked_list = LinkedList ()
 
-print(fibonacci (10))
+linked_list.insert_beginning(10)
+linked_list.insert_beginning(20)
+linked_list.insert_beginning(30)
+
+linked_list.insert_position(1, 25)
+
+linked_list.delete_position(2)
+linked_list.delete_position(1)
+linked_list.delete_position(0)
+
+linked_list.display()
